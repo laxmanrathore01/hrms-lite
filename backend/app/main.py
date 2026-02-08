@@ -1,18 +1,11 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .database import Base, engine
-from .routes import employee, attendance
+from app.routes import employee, attendance
 
-Base.metadata.create_all(bind=engine)
+app = FastAPI()
 
-app = FastAPI(title="HRMS Lite API")
+@app.get("/")
+def root():
+    return {"message": "HRMS Lite Backend Running 🚀"}
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
-
-app.include_router(employee.router)
-app.include_router(attendance.router)
+app.include_router(employee.router, prefix="/employees", tags=["Employees"])
+app.include_router(attendance.router, prefix="/attendance", tags=["Attendance"])
