@@ -13,4 +13,4 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "HRMS Lite Backend Running 🚀"}
+    return {Database}
